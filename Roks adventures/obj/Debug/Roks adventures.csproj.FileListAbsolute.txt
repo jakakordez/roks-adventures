@@ -1,0 +1,6 @@
+c:\users\jaka\documents\visual studio 2013\Projects\Roks adventures\Roks adventures\bin\Debug\Roks adventures.exe.config
+c:\users\jaka\documents\visual studio 2013\Projects\Roks adventures\Roks adventures\bin\Debug\Roks adventures.exe
+c:\users\jaka\documents\visual studio 2013\Projects\Roks adventures\Roks adventures\bin\Debug\Roks adventures.pdb
+c:\users\jaka\documents\visual studio 2013\Projects\Roks adventures\Roks adventures\obj\Debug\Roks adventures.csprojResolveAssemblyReference.cache
+c:\users\jaka\documents\visual studio 2013\Projects\Roks adventures\Roks adventures\obj\Debug\Roks adventures.exe
+c:\users\jaka\documents\visual studio 2013\Projects\Roks adventures\Roks adventures\obj\Debug\Roks adventures.pdb
