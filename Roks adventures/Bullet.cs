@@ -24,9 +24,9 @@ namespace Roks_adventures
             else X--;
         }
 
-        public void Draw()
+        public void Draw(string projectile)
         {
-            Program.Write(X-1, Y, " o ", false);
+            Program.Write(X-1, Y, " "+projectile+" ", false);
         }
     }
 }

@@ -6,59 +6,35 @@ using System.Threading.Tasks;
 
 namespace Roks_adventures
 {
-    class Rok
+    class Rok:Character
     {
-        public int x = 10, y = 20;
         int px, jump, step;
 
-        Program.Direction CharacterDirection;
-
-        List<Bullet> bullets;
-
-        public Rok()
+        public Rok():base(new string[] { " ☺ ", "/█\\", " ║ " })
         {
             px = x;
-            bullets = new List<Bullet>();
+            x = 5;
+            Projectile = "o";
         }
 
         public void Draw()
         {
             CalculateJump();
-            for (int i = px; i > x-1; i--)
-            {
-                Program.Write(i - 1, y - 3, "  ");
-                Program.Write(i - 1, y - 2, " ");
-                Program.Write(i - 1, y - 1, " ");
-                Program.Write(i + 1, y - 3, "  ");
-                Program.Write(i + 2, y - 2, " ");
-                Program.Write(i + 2, y - 1, " ");
-            }
-
-            for (int i = px; i < x+1; i++)
-            {
-                Program.Write(i - 1, y - 3, "  ");
-                Program.Write(i - 1, y - 2, " ");
-                Program.Write(i - 1, y - 1, " ");
-                Program.Write(i + 1, y - 3, "  ");
-                Program.Write(i + 2, y - 2, " ");
-                Program.Write(i + 2, y - 1, " ");
-            }
 
             if (jump > 0) { Program.Write(x - 1, y - 4, "   ");
-            if (jump < 5) Program.Write(x - 1, y, "   ");
+                if (jump < 5) Program.Write(x - 1, y, "   ");
             }
 
-            Program.Write(x, y - 3, "☺");
-            Program.Write(x-1, y - 2, "/█\\");
+             base.Draw();
             switch (step)
             {
                 case 0:
                     
-                    Program.Write(x - 1, y - 1, " ║ ");
+                    //Program.Write(x - 1, y - 1, " ║ ");
                     break;
                 case 1:
-                    if(CharacterDirection == Program.Direction.Left) Program.Write(x - 1, y - 1, " |\\");
-                    else Program.Write(x - 1, y - 1, "/| ");
+                    if(CharacterDirection == Program.Direction.Left) Program.Write(x, y, " |\\");
+                    else Program.Write(x, y, "/| ");
                     break;
                 case 2:
                     
@@ -68,37 +44,33 @@ namespace Roks_adventures
                     break;
             }
             px = x;
-            foreach (Bullet b in bullets)
-            {
-                b.Move();
-                b.Draw();
-            }
+
+           
         }
 
-        public void Move(ConsoleKey k)
+        public void Move()
         {
-            
-            switch (k)
+            if(NativeKeyboard.IsKeyDown(KeyCode.Right)){
+                if (x > 1)
+                {
+                    Move(Program.Direction.Right);
+                    if (step++ == 1) step = 0;
+                }
+                CharacterDirection = Program.Direction.Right;
+            }
+            if (NativeKeyboard.IsKeyDown(KeyCode.Left))
             {
-                case ConsoleKey.RightArrow:
-                    if (x > 1)
-                    {
-                        x++;
-                        if (step++ == 1) step = 0;
-                    }
-                    CharacterDirection = Program.Direction.Right;
-                    break;
-                case ConsoleKey.LeftArrow:
-                    x--;
-                    if (step-- == 0) step = 1;
-                    CharacterDirection = Program.Direction.Left;
-                    break;
-                case ConsoleKey.UpArrow:
+                Move(Program.Direction.Left);
+                if (step-- == 0) step = 1;
+                CharacterDirection = Program.Direction.Left;
+            }
+            if(NativeKeyboard.IsKeyDown(KeyCode.Up)){
                     jump = 1;
-                    break;
-                case ConsoleKey.Spacebar:
-                    bullets.Add(new Bullet(x+((CharacterDirection == Program.Direction.Right)?+2:-2), y-2, CharacterDirection));
-                    break;
+            }
+            if (NativeKeyboard.IsKeyDown(KeyCode.Space))
+            {
+
+                Bullets.Add(new Bullet(x + ((CharacterDirection == Program.Direction.Right) ? +3 : -3), y - 1, CharacterDirection));
             }
         }
 
@@ -107,20 +79,24 @@ namespace Roks_adventures
             switch (jump)
             {
                 case 1:
-                    y = 19;
+                    y = 18;
+                    Program.Write(x, 19, "   ");
                     jump++;
                     break;
                 case 2:
                 case 3:
-                    y = 18;
+                    y = 17;
                     jump++;
+                    Program.Write(x, 18, "   ");
                     break;
                 case 4:
-                    y = 19;
+                    y = 18;
                     jump++;
+                    Program.Write(x, 15, "   ");
                     break;
                 case 5:
-                    y = 20;
+                    Program.Write(x, 16, "   ");
+                    y = 19;
                     break;
                 case 6:
                     jump = 0;

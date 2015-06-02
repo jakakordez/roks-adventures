@@ -11,44 +11,14 @@ namespace Roks_adventures
 {
     class Game
     {
-        int i;
         bool Initialized;
         Rok player;
-        BackgroundWorker keyListener;
+        Enemy php;
         public void Start()
         {
             player = new Rok();
-
-            keyListener = new BackgroundWorker();
-            keyListener.WorkerReportsProgress = true;
-            keyListener.DoWork += keyListener_DoWork;
-            keyListener.ProgressChanged += keyListener_ProgressChanged;
-            keyListener.RunWorkerAsync();
-
+            php = Enemy.phpEnemy();
             Loop();
-
-        }
-
-        void keyListener_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            switch (((ConsoleKeyInfo)(e.UserState)).Key)
-            {
-                case ConsoleKey.RightArrow:
-                case ConsoleKey.LeftArrow:
-                case ConsoleKey.UpArrow:
-                case ConsoleKey.Spacebar:
-                    player.Move(((ConsoleKeyInfo)(e.UserState)).Key);
-                    break;
-            }
-        }
-
-        void keyListener_DoWork(object sender, DoWorkEventArgs e)
-        {
-            while (true)
-            {
-                keyListener.ReportProgress(0, (Console.ReadKey(false)));
-                Thread.Sleep(20);
-            }
         }
 
         void Loop()
@@ -56,7 +26,7 @@ namespace Roks_adventures
             while (true)
             {
                 //Console.Clear();
-                
+                player.Move();
                 Draw();
                 Thread.Sleep(100);
             }
@@ -66,6 +36,7 @@ namespace Roks_adventures
         void Draw()
         {
             player.Draw();
+            php.Draw();
             if (!Initialized) DrawGround();
         }
 
