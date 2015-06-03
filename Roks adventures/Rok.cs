@@ -8,7 +8,8 @@ namespace Roks_adventures
 {
     class Rok:Character
     {
-        int px, jump = 0, step;
+        int jump, step;
+        public int DP;
 
         public Rok(Action<int, int, string, bool> printer)
             : base(new string[] { " ☺ ", @"/█\", " ║ " }, printer)
@@ -19,33 +20,17 @@ namespace Roks_adventures
 
         public void Draw()
         {
-            Clear();
             CalculateJump();
 
             if (jump > 0) { Print(x - 1, y - 4, "   ", false);
                 if (jump < 5) Print(x - 1, y, "   ", false);
             }
 
-             base.Draw();
-            switch (step)
-            {
-                case 0:
-                    
-                    //Program.Write(x - 1, y - 1, " ║ ");
-                    break;
-                case 1:
-                    if (CharacterDirection == Program.Direction.Left) Print(x, y, " |\\", false);
-                    else Print(x, y, "/| ", false);
-                    break;
-                case 2:
-                    
-                    break;
-                case 3:
-                    Print(x - 1, y - 1, "/ \\", false);
-                    break;
+            base.Draw();
+            if(step == 1){
+                if (CharacterDirection == Program.Direction.Left) Print(x, y, " |\\", false);
+                else Print(x, y, "/| ", false);
             }
-
-           
         }
 
         public void Move()

@@ -8,7 +8,7 @@ namespace Roks_adventures
 {
     class Character
     {
-        public int x, y = 19, width;
+        public int x, y = 19, width, Health = 20;
         public string[] body;
         public Program.Direction CharacterDirection;
         public string Projectile;
@@ -32,17 +32,16 @@ namespace Roks_adventures
             foreach (Bullet b in Bullets)
             {
                 b.Move();
-                Print(b.X - 1, b.Y, " " + Projectile + " ", false);
+                Print(b.X, b.Y, Projectile, false);
+                if (b.Duration == 0) Print(b.X, b.Y, " ", false);
             }
+            Bullets.RemoveAll(b => b.Duration == 0);
         }
 
         public void Move(Program.Direction DirectionOfMove)
         {
             CharacterDirection = DirectionOfMove;
-            //Clear();
-            if (CharacterDirection == Program.Direction.Right)x++;
-            else x--;
-            Draw();
+            x += (int)CharacterDirection;
         }
 
         public void Clear()
@@ -53,6 +52,10 @@ namespace Roks_adventures
             Print(x-1 + width, y, "  ", false);
             Print(x-1 + width, y - 1, "  ", false);
             Print(x-1 + width, y - 2, "  ", false);
+            foreach (Bullet b in Bullets)
+            {
+                Print(b.X - 1, b.Y, "   ", false);
+            }
         }
     }
 }

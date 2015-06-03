@@ -13,14 +13,15 @@ namespace Roks_adventures
     {
         bool Initialized;
         Rok player;
-        Enemy php;
+        List<Enemy> Enemies;
         int CameraOffset = 1;
         Action<int, int, string, bool> Printer;
         public void Start()
         {
             Printer = new Action<int, int, string, bool>(Write);
             player = new Rok(Printer);
-            php = Enemy.phpEnemy(Printer);
+            Enemies = new List<Enemy>();
+            Enemies.Add(Enemy.phpEnemy(Printer));
             Loop();
         }
 
@@ -29,29 +30,29 @@ namespace Roks_adventures
             while (true)
             {
                 //Console.Clear();
-
                 player.Move();
+
                 if (player.x - CameraOffset > 40) {
                     CameraOffset++;
-                    php.Clear();
-                    
                 }
                 if (player.x - CameraOffset < 15 && CameraOffset > 0)
                 {
-                    php.Clear();
                     CameraOffset--;
                 }
-                
+
+                Enemies.ForEach((Enemy e) => { e.Clear(); });
+                player.Clear();
                 Draw();
                 Thread.Sleep(100);
             }
         }
 
-
         void Draw()
         {
-            php.Draw();
+            Enemies.ForEach((Enemy e) => { e.Draw(); });
             player.Draw();
+            Program.Write(2, 2, "("+new String('♥', player.Health)+new String(' ', 20-player.Health)+")", 0, false);
+            Program.Write(60, 2, "Score: " + player.DP+" DP", 0, false);
             if (!Initialized) DrawGround();
         }
 

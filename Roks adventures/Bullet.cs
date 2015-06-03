@@ -8,7 +8,7 @@ namespace Roks_adventures
 {
     class Bullet
     {
-        public int X, Y;
+        public int X, Y, Duration = 25;
         Program.Direction BulletDirection;
         public Bullet(int x, int y, Program.Direction bulletDirection)
         {
@@ -18,10 +18,8 @@ namespace Roks_adventures
         }
 
         public void Move(){
-            if(BulletDirection == Program.Direction.Right){
-                X++;
-            }
-            else X--;
+            X += (int)BulletDirection;
+            Duration--;
         }
     }
 }

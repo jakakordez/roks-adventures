@@ -36,7 +36,7 @@ namespace Roks_adventures
 
         public enum Direction
         {
-            Right, Left
+            Right = 1, Left = -1
         }
     }
 }
