@@ -8,7 +8,7 @@ namespace Roks_adventures
 {
     class Bullet
     {
-        int X, Y;
+        public int X, Y;
         Program.Direction BulletDirection;
         public Bullet(int x, int y, Program.Direction bulletDirection)
         {
@@ -22,11 +22,6 @@ namespace Roks_adventures
                 X++;
             }
             else X--;
-        }
-
-        public void Draw(string projectile)
-        {
-            Program.Write(X-1, Y, " "+projectile+" ", false);
         }
     }
 }

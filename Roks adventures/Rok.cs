@@ -8,21 +8,22 @@ namespace Roks_adventures
 {
     class Rok:Character
     {
-        int px, jump, step;
+        int px, jump = 0, step;
 
-        public Rok():base(new string[] { " ☺ ", "/█\\", " ║ " })
+        public Rok(Action<int, int, string, bool> printer)
+            : base(new string[] { " ☺ ", @"/█\", " ║ " }, printer)
         {
-            px = x;
             x = 5;
             Projectile = "o";
         }
 
         public void Draw()
         {
+            Clear();
             CalculateJump();
 
-            if (jump > 0) { Program.Write(x - 1, y - 4, "   ");
-                if (jump < 5) Program.Write(x - 1, y, "   ");
+            if (jump > 0) { Print(x - 1, y - 4, "   ", false);
+                if (jump < 5) Print(x - 1, y, "   ", false);
             }
 
              base.Draw();
@@ -33,17 +34,16 @@ namespace Roks_adventures
                     //Program.Write(x - 1, y - 1, " ║ ");
                     break;
                 case 1:
-                    if(CharacterDirection == Program.Direction.Left) Program.Write(x, y, " |\\");
-                    else Program.Write(x, y, "/| ");
+                    if (CharacterDirection == Program.Direction.Left) Print(x, y, " |\\", false);
+                    else Print(x, y, "/| ", false);
                     break;
                 case 2:
                     
                     break;
                 case 3:
-                    Program.Write(x-1, y - 1, "/ \\");
+                    Print(x - 1, y - 1, "/ \\", false);
                     break;
             }
-            px = x;
 
            
         }
@@ -51,7 +51,7 @@ namespace Roks_adventures
         public void Move()
         {
             if(NativeKeyboard.IsKeyDown(KeyCode.Right)){
-                if (x > 1)
+                if (x > 0)
                 {
                     Move(Program.Direction.Right);
                     if (step++ == 1) step = 0;
@@ -60,11 +60,14 @@ namespace Roks_adventures
             }
             if (NativeKeyboard.IsKeyDown(KeyCode.Left))
             {
-                Move(Program.Direction.Left);
-                if (step-- == 0) step = 1;
-                CharacterDirection = Program.Direction.Left;
+                if (x > 1)
+                {
+                    Move(Program.Direction.Left);
+                    if (step-- == 0) step = 1;
+                    CharacterDirection = Program.Direction.Left;
+                }
             }
-            if(NativeKeyboard.IsKeyDown(KeyCode.Up)){
+            if(jump == 0 && NativeKeyboard.IsKeyDown(KeyCode.Up)){
                     jump = 1;
             }
             if (NativeKeyboard.IsKeyDown(KeyCode.Space))
@@ -80,23 +83,24 @@ namespace Roks_adventures
             {
                 case 1:
                     y = 18;
-                    Program.Write(x, 19, "   ");
+                    Print(x, 19, "   ", false);
                     jump++;
                     break;
                 case 2:
                 case 3:
                     y = 17;
                     jump++;
-                    Program.Write(x, 18, "   ");
+                    Print(x, 18, "   ", false);
                     break;
                 case 4:
                     y = 18;
                     jump++;
-                    Program.Write(x, 15, "   ");
+                    Print(x, 15, "   ", false);
                     break;
                 case 5:
-                    Program.Write(x, 16, "   ");
+                    Print(x, 16, "   ", false);
                     y = 19;
+                    jump++;
                     break;
                 case 6:
                     jump = 0;

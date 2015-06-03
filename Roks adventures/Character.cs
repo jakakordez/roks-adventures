@@ -13,46 +13,46 @@ namespace Roks_adventures
         public Program.Direction CharacterDirection;
         public string Projectile;
         public List<Bullet> Bullets;
+        public Action<int, int, string, bool> Print;
 
-        public Character(string[] Body)
+        public Character(string[] Body, Action<int, int, string, bool> printer)
         {
             body = Body;
             width = body[0].Length;
             Bullets = new List<Bullet>();
+            Print = printer;
         }
 
         public void Draw()
         {
-            Program.Write(x, y, body[2]);
-            Program.Write(x, y - 1, body[1]);
-            Program.Write(x, y - 2, body[0]);
+            Print(x, y, body[2], false);
+            Print(x, y - 1, body[1], false);
+            Print(x, y - 2, body[0], false);
 
             foreach (Bullet b in Bullets)
             {
                 b.Move();
-                b.Draw(Projectile);
+                Print(b.X - 1, b.Y, " " + Projectile + " ", false);
             }
         }
 
         public void Move(Program.Direction DirectionOfMove)
         {
             CharacterDirection = DirectionOfMove;
-            if (CharacterDirection == Program.Direction.Right)
-            {
-                Program.Write(x, y, " ");
-                Program.Write(x, y - 1, " ");
-                Program.Write(x, y - 2, " ");
-                x++;
-                Draw();
-            }
-            else
-            {
-                x--;
-                Program.Write(x + width, y, " ");
-                Program.Write(x + width, y - 1, " ");
-                Program.Write(x + width, y - 2, " ");
-                Draw();
-            }
+            //Clear();
+            if (CharacterDirection == Program.Direction.Right)x++;
+            else x--;
+            Draw();
+        }
+
+        public void Clear()
+        {
+            Print(x-1, y, "  ", false);
+            Print(x-1, y - 1, "  ", false);
+            Print(x-1, y - 2, "  ", false);
+            Print(x-1 + width, y, "  ", false);
+            Print(x-1 + width, y - 1, "  ", false);
+            Print(x-1 + width, y - 2, "  ", false);
         }
     }
 }

@@ -14,10 +14,13 @@ namespace Roks_adventures
         bool Initialized;
         Rok player;
         Enemy php;
+        int CameraOffset = 1;
+        Action<int, int, string, bool> Printer;
         public void Start()
         {
-            player = new Rok();
-            php = Enemy.phpEnemy();
+            Printer = new Action<int, int, string, bool>(Write);
+            player = new Rok(Printer);
+            php = Enemy.phpEnemy(Printer);
             Loop();
         }
 
@@ -26,7 +29,19 @@ namespace Roks_adventures
             while (true)
             {
                 //Console.Clear();
+
                 player.Move();
+                if (player.x - CameraOffset > 40) {
+                    CameraOffset++;
+                    php.Clear();
+                    
+                }
+                if (player.x - CameraOffset < 15 && CameraOffset > 0)
+                {
+                    php.Clear();
+                    CameraOffset--;
+                }
+                
                 Draw();
                 Thread.Sleep(100);
             }
@@ -35,16 +50,21 @@ namespace Roks_adventures
 
         void Draw()
         {
-            player.Draw();
             php.Draw();
+            player.Draw();
             if (!Initialized) DrawGround();
+        }
+
+        public void Write(int x, int y, string content, bool allowGround)
+        {
+            Program.Write(x, y, content, CameraOffset, allowGround);
         }
 
         void DrawGround()
         {
             for (int i = 0; i < 80; i++)
             {
-                Program.Write(i, 20, "X", true);
+                Write(i, 20, "X", true);
             }
             Initialized = true;
         }
