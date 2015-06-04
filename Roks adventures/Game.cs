@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.ComponentModel;
 
-
 namespace Roks_adventures
 {
     class Game
@@ -15,10 +14,17 @@ namespace Roks_adventures
         Rok player;
         List<Enemy> Enemies;
         int CameraOffset = 1;
+        List<Drawable> Clouds;
         Action<int, int, string, bool> Printer;
         public void Start()
         {
             Printer = new Action<int, int, string, bool>(Write);
+
+
+            Clouds = new List<Drawable>();
+            Clouds.Add(new Drawable(new string[] { "(______---___)", " _-(    )--__ ", "    ____      " }, Printer));
+            Clouds[0].y = 8;
+            Clouds[0].x = 15;
             player = new Rok(Printer);
             Enemies = new List<Enemy>();
             Enemies.Add(Enemy.phpEnemy(Printer));
@@ -41,9 +47,29 @@ namespace Roks_adventures
                 }
 
                 Enemies.ForEach((Enemy e) => { e.Clear(); });
+                Clouds.ForEach((Drawable e) => { e.Draw();  e.Clear(); });
                 player.Clear();
                 Draw();
                 Thread.Sleep(100);
+
+                for (int i = 0; i < player.Bullets.Count; i++) // Check for collisions
+			    {
+			        for (int j = 0; j < Enemies.Count; j++)
+			        {
+			            if (player.Bullets[i].X >= Enemies[j].x && player.Bullets[i].X <= Enemies[j].x + Enemies[j].width)
+                        {
+                            Enemies[j].Health--;
+                            player.Bullets[i].Duration = 0;
+                            if(Enemies[j].Health <=0){
+                                Enemies[j].Delete();
+                                Enemies.RemoveAt(j);
+                                break;
+                            }
+                        }
+			        }
+			    }
+                player.Bullets.RemoveAll(b => b.Duration == 0);
+                
             }
         }
 

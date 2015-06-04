@@ -21,14 +21,14 @@ namespace Roks_adventures
 
         public static Enemy phpEnemy(Action<int, int, string, bool> printer)
         {
-            Enemy r = new Enemy(new string[] { " ^^^^^ ", "<?php?>", "<*****>" }, printer);
+            Enemy r = new Enemy(new string[] { "<*****>", "<?php?>", " ^^^^^ " }, printer);
             r.Projectile = "$";
             return r;
         }
 
         public static Enemy csEnemy(Action<int, int, string, bool> printer)
         {
-            Enemy r = new Enemy(new string[] { " .... ", "[;C#;]", "{::::}" }, printer);
+            Enemy r = new Enemy(new string[] { "{::::}", "[;C#;]", " .... " }, printer);
             r.Projectile = "#";
             return r;
         }

@@ -12,7 +12,7 @@ namespace Roks_adventures
         public int DP;
 
         public Rok(Action<int, int, string, bool> printer)
-            : base(new string[] { " ☺ ", @"/█\", " ║ " }, printer)
+            : base(new string[] { " ║ ", @"/█\", " ☺ " }, printer)
         {
             x = 5;
             Projectile = "o";

@@ -6,28 +6,23 @@ using System.Threading.Tasks;
 
 namespace Roks_adventures
 {
-    class Character
+    class Character:Drawable
     {
-        public int x, y = 19, width, Health = 20;
-        public string[] body;
+        public int Health = 20;
         public Program.Direction CharacterDirection;
         public string Projectile;
         public List<Bullet> Bullets;
-        public Action<int, int, string, bool> Print;
+        
 
-        public Character(string[] Body, Action<int, int, string, bool> printer)
+        public Character(string[] Body, Action<int, int, string, bool> printer):base(Body, printer)
         {
-            body = Body;
-            width = body[0].Length;
             Bullets = new List<Bullet>();
-            Print = printer;
+            y = 19;
         }
 
         public void Draw()
         {
-            Print(x, y, body[2], false);
-            Print(x, y - 1, body[1], false);
-            Print(x, y - 2, body[0], false);
+            base.Draw();
 
             foreach (Bullet b in Bullets)
             {
@@ -35,7 +30,6 @@ namespace Roks_adventures
                 Print(b.X, b.Y, Projectile, false);
                 if (b.Duration == 0) Print(b.X, b.Y, " ", false);
             }
-            Bullets.RemoveAll(b => b.Duration == 0);
         }
 
         public void Move(Program.Direction DirectionOfMove)
@@ -46,12 +40,7 @@ namespace Roks_adventures
 
         public void Clear()
         {
-            Print(x-1, y, "  ", false);
-            Print(x-1, y - 1, "  ", false);
-            Print(x-1, y - 2, "  ", false);
-            Print(x-1 + width, y, "  ", false);
-            Print(x-1 + width, y - 1, "  ", false);
-            Print(x-1 + width, y - 2, "  ", false);
+            base.Clear();
             foreach (Bullet b in Bullets)
             {
                 Print(b.X - 1, b.Y, "   ", false);
