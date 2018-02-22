@@ -37,12 +37,12 @@ namespace Roks_adventures
 
         public void Clear()
         {
-            Print(x - 2, y, "  ", false);
-            Print(x - 2, y - 1, "  ", false);
-            Print(x - 2, y - 2, "  ", false);
-            Print(x  + width, y, "  ", false);
-            Print(x  + width, y - 1, "  ", false);
-            Print(x  + width, y - 2, "  ", false);
+            for (int i = 0; i < Lines.Length; i++)
+            {
+                Print(x - 2, y-i, "  ", false);
+                Print(x + width, y - i, "  ", false);
+
+            }
         }
     }
 }

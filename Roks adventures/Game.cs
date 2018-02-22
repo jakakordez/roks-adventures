@@ -17,6 +17,7 @@ namespace Roks_adventures
         Dictionary<string, List<Drawable>> StaticObjects;
         Action<int, int, string, bool> Printer;
         
+        
         public void Start()
         {
             Printer = new Action<int, int, string, bool>(Write);
@@ -28,12 +29,17 @@ namespace Roks_adventures
             StaticObjects["Traps"][0].x = 20;
             StaticObjects["Traps"][0].y = 19;
 
+            StaticObjects.Add("Exit", new List<Drawable>());
+            StaticObjects["Exit"].Add(new Exit(Printer));
+            StaticObjects["Exit"][0].x = 400;
+            StaticObjects["Exit"][0].y = 19;
+
             StaticObjects.Add("Clouds", new List<Drawable>());
             generateClouds();
 
             player = new Rok(Printer);
             Enemies = new List<Enemy>();
-            Enemies.Add(Enemy.phpEnemy(Printer));
+            Enemies.Add(Enemy.csEnemy(Printer));
             Loop();
         }
 
@@ -68,6 +74,7 @@ namespace Roks_adventures
                 // ----- Draw GUI
                 Program.Write(2, 2, "(" + new String('♥', player.Health) + new String(' ', 20 - player.Health) + ")", 0, false);
                 Program.Write(60, 2, "Score: " + player.DP + " DP", 0, false);
+                Program.Write(60, 3, "Level: 1", 0, false);
 
                 if (!Initialized) DrawGround();
 
